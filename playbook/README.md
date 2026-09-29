@@ -10,6 +10,6 @@ Version 0.2 (29 Sep 2026). Self-contained copy of Bot Studio's playbook (28–29
 | `PUBLISH-CHECKLIST.md` | Hard go/no-go before any publish |
 | `GUARDRAILS.md` | Every rule with why it exists |
 | `REPO-STANDARD.md` | One public repo per bot; what may never be committed; layout; versions; PRs |
-| `sources/` | Andy's article, full text |
+| `sources/` | Outside sources we build on, each summarised in our own words with a link to the original |
 
 Start here: agree the goal line with Koko, then run the intake (`INTAKE-GUIDE.md`).

@@ -106,6 +106,7 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 - [ ] **L6 new** Lessons found while building this bot are in a PR to `grokbot-template` (`LEARNINGS.md` + the file it affects). · BS
 - [ ] **L7 v0.2** The root `README.md` came from `README.template.md` and describes this bot, with its Status line current. The root `CHANGELOG.md` is untouched, and `bot/CHANGELOG.md`'s first entry names the template version it matches. · BS
 - [ ] **L8 v0.2** No placeholders left: `grep -rnE "mybot|MyBot|<[^<>]{1,40}>|____" bot/` is clear of anything undecided. · BS
+- [ ] **L9 v0.2** Nothing in the repo is somebody else's to publish: no copied articles, posts, documentation, prompts or skills. Research we build on is summarised in our own words with the link, author and date. · BS
 
 ## M. Stage and go
 - [ ] **M1** Staged from inside the source bot; for an update, the bot that owns the live listing. · BS
@@ -119,7 +120,7 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 ---
 
 ## N. From Andy's article: "How to monetize your Grok Bot templates on X"
-Source: Andy (@andy_ai0), 26 Sep 2026. Full text: `sources/andy-monetize-grokbot-templates.md`. Only the parts that apply to Koko.
+Source: Andy (@andy_ai0), 26 Sep 2026, "How to monetize your Grok Bot templates on X" (<https://x.com/andy_ai0/status/2103815543102820755>). Our summary of the points we use, with what we deliberately don't: `sources/andy-monetize-grokbot-templates.md`. Only the parts that apply to Koko.
 
 ### N1. Worth installing
 - [ ] **N1.1** "Worse without it": going back to a plain Grok chat would make the workflow noticeably worse. · K

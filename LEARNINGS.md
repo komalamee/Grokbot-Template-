@@ -6,6 +6,17 @@ The organised rulebook is `playbook/GUARDRAILS.md`; this file is the dated log.
 
 ---
 
+## 29 Sep 2026: before the repo goes public
+
+**K17. Never commit a copy of someone else's text. Summarise the points we use in our own words, keep the link, the author and the date, and say which points we deliberately don't use.** Research pulled in while a repo was private becomes republishing the moment that repo is public, and that isn't ours to do. It is the same rule we already apply to other people's data, applied to their writing.
+- Why: `playbook/sources/andy-monetize-grokbot-templates.md` held the full text of Andy's X article of 26 Sep 2026, fetched through the X connector on 28 Sep while the repos were still private. Koko caught it before making this repo public. The summary that replaced it is more useful anyway: it maps each point to the gate or checklist item that cites it, and it lists what we deliberately don't take — the whole rewards-programme half, including the "paid partnership" label that we must *not* copy, since Koko isn't in the programme and the label would be a false claim. The other people's templates, like counts and payouts the article names are gone with it.
+- Applies to: articles, posts, documentation, other people's prompts or skills, support-thread answers, long quotations. A short attributed quote is fine where the exact wording is the point. Koko's own approved wording is a different matter and is still recorded word for word on purpose.
+- The credit stays: a published author's name and handle, cited for work of theirs we build on, is attribution rather than a leak, so it is never a private term — the same carve-out as the owner's published name. What we drop is the other people *they* name: their examples, their customers, their figures.
+- Source: Koko, 29 Sep 2026.
+- Landed: `playbook/sources/andy-monetize-grokbot-templates.md` (rewritten as our summary, same path so every reference still works), `playbook/README.md`, `playbook/PUBLISH-CHECKLIST.md` section N header + L9, `playbook/REPO-STANDARD.md`, `playbook/GUARDRAILS.md` 61, `README.md`, `README.template.md`, `CHANGELOG.md`.
+
+---
+
 ## 29 Sep 2026: from the Docs Librarian setup (the first real use of this template)
 
 The Docs Librarian repo was set up by following this template's own start steps, and the builder wrote up what got in the way. Everything below is a gap in the template, not in that bot. Guardrails 51–60.

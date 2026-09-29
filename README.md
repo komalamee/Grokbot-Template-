@@ -7,6 +7,8 @@ Every new bot starts as a copy of this repo, so every bot is built the same way.
 
 **Because the repos are public, nothing personal or private may ever be committed.** The only personal detail allowed anywhere is the owner's published name, "Komal Amin", which the marketplace listing has to carry. No other people's names or handles, no email addresses, no postal addresses, no account or invoice numbers, no keys or tokens, no agent IDs, no `.env` files, no computer usernames or paths, no private Sheet, Doc or Drive links, and no working notes about anyone. **The private-data scan must pass before every commit and every pull request** — `banned_scan.py`, and `build.py` runs the same check over the packed args. A scan hit is a stop, not a warning.
 
+**Nor anything that is somebody else's to publish.** No copies of other people's articles, posts, documentation, prompts or skills. Research we build on is summarised in our own words, with the link, the author and the date — see `playbook/sources/`.
+
 ## What's in here
 | Folder / file | What it is |
 |---|---|

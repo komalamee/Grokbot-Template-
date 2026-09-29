@@ -115,3 +115,9 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
 58. **Nothing date-driven gets a routine per date.** A routine is a clock, not a calendar: use a daily check at a fixed time, quiet unless due. *(D8)*
 59. **A repo exists before the skills do.** "Repo set up, skills not written yet" is a named state with its own rules (gate ③), and the build stays green through it. *(D9)*
 60. **An example in the template is generic.** No bot's name, data or subject in a skeleton file — the next builder reads an example as an instruction. *(D10)*
+
+## Added 29 Sep 2026: publishing someone else's work
+61. **Never commit a copy of someone else's text. Summarise the points we use in our own words, and link to the original.** *(K17)*
+    *Why:* `playbook/sources/` held the full text of a third party's X article, pulled in as research while the repos were private. Once the repos are public, keeping it there is republishing another person's work without their say-so — and it is the same rule we already apply to everyone else's data, just applied to their writing. A summary is also more useful to us: it says which points we actually use and where, and which we deliberately don't. Keep the link, the author and the date so anyone can check us against the original, and mark whose claims are whose. *(Koko, 29 Sep 2026)*
+    *Applies to:* articles, posts, documentation, other people's prompts or skills, support-thread answers, and long quotations. Short attributed quotes are fine where the exact wording is the point. The owner's own approved wording is a different thing and is recorded word for word on purpose.
+    *And the credit stays:* a published author's name and handle, cited for work of theirs we build on, is attribution rather than a leak — so it is never a private term, for the same reason the owner's published name isn't. What we don't restate is other people they name: their customers, their examples, their numbers.
