@@ -12,7 +12,7 @@
 
 **Nothing personal or private is ever committed here.** The repo is public so an imported bot can pull its fixed files from it. The owner's published name ("Komal Amin", required in the listing) is the only personal detail allowed. No other people's names or handles, emails, addresses, account numbers, keys, tokens, agent IDs, `.env` files, computer usernames or paths, private Sheet/Doc/Drive links, or working notes about anyone. Run the private-data scan before every commit and PR.
 
-**And nothing that is somebody else's to publish:** no copies of other people's articles, posts, documentation, prompts or skills. Summarise what we build on in our own words, with the link, the author and the date.
+**And nothing that is somebody else's to publish:** no copies of other people's articles, posts, documentation, prompts or skills, and no summaries of them either. What we take from an outside source becomes one of our own rules, in our own words, with a one-line credit and a link where it is used.
 
 ## What's in here
 | Folder / file | What it is |

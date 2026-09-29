@@ -10,6 +10,7 @@ Version 0.2 (29 Sep 2026). Self-contained copy of Bot Studio's playbook (28–29
 | `PUBLISH-CHECKLIST.md` | Hard go/no-go before any publish |
 | `GUARDRAILS.md` | Every rule with why it exists |
 | `REPO-STANDARD.md` | One public repo per bot; what may never be committed; layout; versions; PRs |
-| `sources/` | Outside sources we build on, each summarised in our own words with a link to the original |
+
+No `sources/` folder: we don't keep copies or summaries of other people's writing. What we take from an outside source becomes one of our own rules, with a one-line credit and a link where it is used — see the head of `PUBLISH-CHECKLIST.md` section N (K17, guardrail 61).
 
 Start here: agree the goal line with Koko, then run the intake (`INTAKE-GUIDE.md`).

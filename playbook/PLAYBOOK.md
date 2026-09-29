@@ -35,7 +35,7 @@ Each gate needs Koko's OK to move on.
 ## ① Idea
 - **Entry:** an idea on the board.
 - **Steps:** one line: who, the one job, the pain, first result, connections, effort (S/M/L). Quick saturation check (say it's not market research). Drop anything that repeats a live bot.
-- **"Worse without it" test (Andy):** would going back to a plain Grok chat make the user's workflow noticeably worse? Is it more than one prompt? Does it use 2+ of: routines, connected tools, repeated context, background work, memory? If not, drop it or rethink it.
+- **"Worse without it" test** (checklist N1, credited there): would going back to a plain Grok chat make the user's workflow noticeably worse? Is it more than one prompt? Does it use 2+ of: routines, connected tools, repeated context, background work, memory? If not, drop it or rethink it.
 - **Exit:** Koko picks it **and** fewer than 2 bots are in Build.
 
 ## ② Goal and intake
@@ -86,7 +86,7 @@ A repo normally exists before there is anything to put in it: it is made at the 
 
 ## ⑦ Pre-publish check
 - **Entry:** package ready.
-- **Steps:** tick every item in `PUBLISH-CHECKLIST.md`. Review the share draft line by line: instructions, memories, skills, routines, plugins; no keys, internal URLs or client data (Andy). Open a PR with the exact files; **Koko merges**. Draft launch content now (see ⑨): ready, not posted. Stage from **inside the source bot** (for an update: the bot that owns the live listing).
+- **Steps:** tick every item in `PUBLISH-CHECKLIST.md`. Review the share draft line by line and don't trust it: instructions, memories, skills, routines, plugins; no keys, internal URLs or client data (checklist N2). Open a PR with the exact files; **Koko merges**. Draft launch content now (see ⑨): ready, not posted. Stage from **inside the source bot** (for an update: the bot that owns the live listing).
 - **Exit:** Koko has seen the staged card: **right icon, all connections visible**. Any icon or skill change after staging = restage.
 
 ## ⑧ Publish
@@ -96,8 +96,8 @@ A repo normally exists before there is anything to put in it: it is made at the 
 
 ## ⑨ Post-launch
 - Links: URL in the repo README, listing file and board.
-- Marketplace: listed there as well as shared on X (Andy).
-- Social: hand Brandy P the final link, icon, 3–4 example first messages and visuals. Koko OKs each post. Formats (Andy): pain point line · screen recording of the output · walkthrough article · workflow article. No "paid partnership" label (Koko isn't in the rewards programme).
+- Marketplace: listed there as well as shared on X — a separate channel, not a substitute (checklist N3.5).
+- Social: hand Brandy P the final link, icon, 3–4 example first messages and visuals. Koko OKs each post. Formats (checklist N3): pain point line · screen recording of the output · walkthrough article · workflow article. **No "paid partnership" label** — Koko isn't in the rewards programme, so it would be a false claim (checklist N4.1).
 - Website: Nomad Pro → Chief. Any other bot → `docs/WEBSITE-HANDOFF.md`, **Koko passes it to Hermes**.
 - Any later link or icon change → restage, Koko rechecks the card, Brandy P rechecks every scheduled asset, the site is updated.
 - **Exit:** every public asset points to the live link and current icon.
@@ -124,4 +124,4 @@ Gates ④–⑧ again, plus: same source bot · like-for-like comparison against
 - **29 Sep 2026 (Koko):** every bot has its own repo with its latest version; fixed files ship from the repo and install on import.
 - **29 Sep 2026 (Koko):** repos are **public**, this template included, so an imported bot can pull its fixed files straight from its own repo. Replaces "private repo". Nothing personal or private is ever committed, the owner's published name excepted, and the private-data scan must pass before every commit and PR.
 - **29 Sep 2026 (Koko):** Sheets designed for a human reader; no record-ID codes or "source rows" anywhere. Replaces the old "outputs name source rows" rule.
-- Andy's rewards-programme items don't apply (Koko doesn't qualify).
+- **Credit:** the "worth installing" checks in `PUBLISH-CHECKLIST.md` section N draw on Andy (@andy_ai0), "How to monetize your Grok Bot templates on X", 26 Sep 2026 — <https://x.com/andy_ai0/status/2103815543102820755>. They are written in our own words. The rest of that article is about X's rewards programme, which doesn't apply (Koko doesn't qualify), and its "paid partnership" label must not be copied.

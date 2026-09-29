@@ -1,7 +1,7 @@
 # Publish checklist: hard go / no-go
 
 Version 0.2 (29 Sep 2026). Adapted from Bot Studio's checklist (28 Sep 2026, updated 29 Sep 2026) with Koko's 29 Sep rules added (marked **new**) and the first-use items of 29 Sep 2026 (marked **v0.2**).
-**Every box ticked = GO. Any box empty = NO-GO.** Who ticks: **BS** Bot Studio, **K** Koko. Section N comes from Andy's article.
+**Every box ticked = GO. Any box empty = NO-GO.** Who ticks: **BS** Bot Studio, **K** Koko. Section N holds the "is this worth installing" checks, credited at the section head.
 Copy this file into the bot's PR description or `docs/` for each release.
 
 Bot: ________ · Version: v____ · Date (ICT): ________
@@ -119,28 +119,29 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 
 ---
 
-## N. From Andy's article: "How to monetize your Grok Bot templates on X"
-Source: Andy (@andy_ai0), 26 Sep 2026, "How to monetize your Grok Bot templates on X" (<https://x.com/andy_ai0/status/2103815543102820755>). Our summary of the points we use, with what we deliberately don't: `sources/andy-monetize-grokbot-templates.md`. Only the parts that apply to Koko.
+## N. Worth installing, safe to share, ready to launch
+Our own checks, in our own words. Credit for the thinking behind them: Andy (@andy_ai0), "How to monetize your Grok Bot templates on X", 26 Sep 2026 — <https://x.com/andy_ai0/status/2103815543102820755>. Only the parts that apply to Koko are here; the article is largely about X's rewards programme, which doesn't (see the end of this section).
 
 ### N1. Worth installing
 - [ ] **N1.1** "Worse without it": going back to a plain Grok chat would make the workflow noticeably worse. · K
-- [ ] **N1.2** Not a single prompt: real work to rebuild from scratch. · BS
-- [ ] **N1.3** Uses at least 2 of: routines, connected tools, repeated context, background work, memory. · BS
+- [ ] **N1.2** Not a single prompt: if one message into a normal chat gets the same result, there is nothing to install. Rebuilding this from scratch would be real work. · BS
+- [ ] **N1.3** Uses at least 2 of: work that repeats on a schedule (routines), connected tools doing the fetching and writing, context that builds up and gets reused instead of re-explained, work that runs in the background unwatched, memory that accumulates so the job gets better over time. · BS
 - [ ] **N1.4** Solves one pain the audience feels, named in one line. · BS
 - [ ] **N1.5** Built for repeat use: a reason to come back weekly. · BS
 
 ### N2. Package review
-- [ ] **N2.1** Share draft reviewed line by line: instructions, memories, skills, routines, plugins. · BS
+- [ ] **N2.1** Share draft read line by line, not trusted: it is assembled from the bot's own configuration and only *tries* to leave personal data out. Check instructions, memories, skills, routines, plugins. · BS
 - [ ] **N2.2** No API keys, internal URLs, client data or anything confidential. · BS
-- [ ] **N2.3** Setup steps inside the bot for anything that doesn't transfer (MCP servers, scripts, engines, fixed files). · BS
-- [ ] **N2.4** Live link checked: `x.ai/bot/` + 21-character token, opens the right card. · K
+- [ ] **N2.3** Setup steps inside the bot for everything the template can't carry over (MCP servers, scripts, engines, fixed files), so a new installer isn't left with a bot that half-works. · BS
+- [ ] **N2.4** Live link checked: `x.ai/bot/` + 21-character token, opens the right card. A link that isn't that shape, or opens the wrong card, means staging went wrong. · K
 
 ### N3. Launch content (ready before Publish, posted only after Koko's OK)
-- [ ] **N3.1** Pain point line for the posts. · Brandy P
-- [ ] **N3.2** Final output shown: screen recording or result image (fake data). · BS → Brandy P
-- [ ] **N3.3** Walkthrough article draft: setup, connecting each plugin, demo. · BS → Brandy P
-- [ ] **N3.4** Workflow article draft. · Brandy P
-- [ ] **N3.5** Listed on the Grok Bot marketplace as well as shared on X. · K
+- [ ] **N3.1** Pain point line for the posts: lead with the problem the template solves. · Brandy P
+- [ ] **N3.2** Final output shown: screen recording or result image (fake data). Showing it beats describing it. · BS → Brandy P
+- [ ] **N3.3** Walkthrough article draft: installing it, connecting each plugin, a demo of it working. · BS → Brandy P
+- [ ] **N3.4** Workflow article draft: the template used as part of getting something real done. · Brandy P
+- [ ] **N3.5** Listed on the Grok Bot marketplace as well as shared on X — a separate channel, not a substitute. · K
 
-### Not applicable (rewards programme; Koko doesn't qualify)
-Eligibility rules, the "paid partnership" label (don't add it), the 30-day public-post rule, reward factors, and Andy's guesses on getting an invite.
+### Not applicable: X's Bot Template Rewards Pilot Program
+Koko is not in it and does not qualify, so none of it is a rule here: the eligibility requirements, how rewards are decided, the 30-day rule that a rewarded post stay public and unedited, and anyone's speculation about getting an invite.
+- [ ] **N4.1** **No "paid partnership" label on any post.** The rewards programme requires it; we must not copy it. Koko isn't in the programme, so the label would be a false claim. This is the easiest item on this page to get wrong by copying someone else's launch post. · Brandy P
