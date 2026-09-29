@@ -1,0 +1,5 @@
+# The repo is public. Nothing personal or private may ever be committed (README, REPO-STANDARD).
+private-terms.txt
+*.local.*
+.env*
+__pycache__/

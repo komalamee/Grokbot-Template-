@@ -1,0 +1,16 @@
+# Playbook
+
+Version 0.2 (29 Sep 2026). Self-contained copy of Bot Studio's playbook (28–29 Sep 2026), adapted with Koko's 29 Sep rules.
+
+| File | What |
+|---|---|
+| `QUICK-REFERENCE.md` | One-page summary: the two things that matter most, the never list, the gates, the short checklist |
+| `PLAYBOOK.md` | The 11 gates, who does what, decisions log |
+| `INTAKE-GUIDE.md` | How to run the intake conversation with Koko: the 13 topics, one at a time |
+| `PUBLISH-CHECKLIST.md` | Hard go/no-go before any publish |
+| `GUARDRAILS.md` | Every rule with why it exists |
+| `REPO-STANDARD.md` | One public repo per bot; what may never be committed; layout; versions; PRs |
+
+No `sources/` folder: we don't keep copies or summaries of other people's writing. What we take from an outside source becomes one of our own rules, with a one-line credit and a link where it is used — see the head of `PUBLISH-CHECKLIST.md` section N (K17, guardrail 61).
+
+Start here: agree the goal line with Koko, then run the intake (`INTAKE-GUIDE.md`).

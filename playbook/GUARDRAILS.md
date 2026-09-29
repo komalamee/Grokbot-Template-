@@ -1,0 +1,124 @@
+# Guardrails
+
+Version 0.2 (29 Sep 2026). Each item: **Rule** · *Why* (what happened) · source.
+Items 1–25: Bot Studio's Nomad Pro lessons (28 Sep 2026; item 21 updated 29 Sep). Items 26 on: added 29 Sep 2026. Items 51–60: the first use of this template (Docs Librarian setup, 29 Sep 2026). The dated log of every lesson, with IDs, is `../LEARNINGS.md`.
+Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = from Bot Studio's brief, no file evidence.
+
+## Listings and bots
+1. **Never delete a bot that has a live listing. Retire the listing first, then archive the bot.**
+   *Why:* deleting the source bot locked its live listing from updates. *(brief; deleted-agents record)*
+2. **Update a live template only from the bot that owns its listing.**
+   *Why:* a copy can't update the original listing; you get a second listing. *(follows from 1)*
+
+## Connections
+3. **"Optional in skills" still means "pack it". Pack every plugin any skill or routine mentions.**
+   *Why:* v2 dropped Gmail, Calendar and Drive by reading "optional" as "don't pack". *(Nomad Pro: V1-V2-COMPARISON §1)*
+4. **Key is `pluginId`, value is a string. Check each with GetPlugin before staging.**
+   *Why:* `plugin_id` got mixed up with `pluginId`; a wrong key silently packs no connections. *(brief; build.py; TRIM-LOG)*
+   *Where:* GetPlugin runs **inside the source bot at gate ④**, not from the repo — it is a bot-side tool, so the spec and `build.py` can only carry and shape-check the IDs. *(Docs Librarian setup, 29 Sep 2026)*
+5. **Keep a copy of every share call's args in the repo.**
+   *Why:* nobody could prove what v1 actually packed. *(Nomad Pro: V1-V2-COMPARISON "Still unverified")*
+
+## Size
+6. **Args ≤ 92 KB. The build fails above it.**
+   *Why:* 103,056 bytes was rejected; 98.0 KB staged. Trimming 11.7 KB cost a whole pass. *(Nomad Pro: TRIM-LOG)*
+7. **Trim wording, never behaviour; keep a behaviour-preservation table.**
+   *Why:* the trim kept all 30+ behaviours only because each was checked off after. *(Nomad Pro: TRIM-LOG, COMPARE-overseas-work §4)*
+
+## Icon
+8. **Set the avatar shape and colour before packaging. Any icon change after staging = restage.**
+   *Why:* the staged card showed the old icon. Templates copy only shape and colour, not an uploaded picture. *(brief)*
+9. **Never ship a white or placeholder icon. Koko checks the icon on the staged card.**
+   *Why:* a white placeholder icon reached the card. *(brief)*
+
+## Building the args
+10. **One source for routine slugs (`routines.json`); the build checks them. Never rename a published slug.**
+    *Why:* slugs drifted across files; a mismatch can create duplicate routines on update. Nomad Pro keeps `calendar-review`. *(Nomad Pro: build.py vs V1-V2-COMPARISON §3)*
+11. **Live skill files must equal the args bodies. No text swaps at build time.**
+    *Why:* build.py swapped "21:00 Bangkok time" for "21:00 your time" in the args only. *(Nomad Pro: build.py)*
+12. **No owner-specific words in skills: no names, pronouns, city or timezone.**
+    *Why:* Koko's timezone and the wrong pronoun were baked into skills every installer gets. *(Nomad Pro: RETEST.md, prev-round getting-started)*
+    *Not the listing:* the listing must say "Made by Komal Amin" (J5). The owner's **published name** is allowed there and is never a private term; everything else about the owner still stays out. *(Docs Librarian setup, 29 Sep 2026)*
+13. **Cron must match the words, to the minute.**
+    *Why:* Nomad Pro's calendar review said "Sunday 18:00" but its cron was `5 18 * * 0`, so it ran 5 minutes late. *(Nomad Pro: CHANGES-2026-09-28)*
+14. **Private-data hits fail the build, with an explicit allow-list.**
+    *Why:* printing hits without failing lets real leaks hide in the noise. *(Nomad Pro: build.py output)*
+15. **Build from the repo, never from the shared live folder.**
+    *Why:* another desk's `getting-started` would have been packed and hijacked a new user's first message. *(Nomad Pro: PACKAGING "Exclude")*
+16. **Prefix every slug and description with the bot name.**
+    *Why:* generic triggers ("a backup", "where do I stand") pull other bots' skills in. *(Nomad Pro: PACKAGING "Collision risk")*
+17. **Back up the live copy before every overwrite.**
+    *Why:* six rounds in one day were only safe because each had a dated backup. *(Nomad Pro: backups)*
+
+## Behaviour
+18. **First useful result by message 2.**
+    *Why:* v1 asked 25–35 questions before any value. *(Nomad Pro: review; V1-V2-COMPARISON §7)*
+19. **Routines stay silent unless something changed; ≤ 1 message per run.**
+    *Why:* "no changes" messages train people to mute the bot. *(Nomad Pro: CHANGES-2026-09-28 §3)*
+20. **Engine and tool output must obey the banned list too.**
+    *Why:* the engine printed a banned word after the skills banned it. *(Nomad Pro: CHANGES-2026-09-28)*
+21. **Nomad Pro only: records, never verdicts.** Not a rule for every bot. Other bots get disclaimers or advice limits only when their subject needs them and Koko agrees in intake.
+    *Why:* Nomad Pro's tax and residency limits. Koko, 29 Sep 2026: those disclaimers were Nomad Pro-specific. *(board, review; Koko)*
+
+## Launch and public assets
+22. **Schedule social only after the card is final and live. Any link or icon change → Brandy P rechecks every scheduled asset.**
+    *Why:* scheduled assets went stale. *(brief)*
+23. **Every bot repo is public, this template included. Nothing personal or private is ever committed, and the private-data scan must pass before every commit and PR.**
+    *Why:* a bot installed on someone else's account can't read a private repo, so fixed files couldn't reach the user. Public repos fix that and move the whole burden onto the scan. The old rule ("bot repo private; a public repo holds code only") was written after a public repo exposed working notes — which is exactly what the scan now has to catch. The owner's published name is the one personal detail allowed, because the listing has to carry it. *(brief; Koko, 29 Sep 2026)*
+24. **Never guess the marketplace link in public copy; use `[MARKETPLACE LINK]` until Koko sends it.**
+    *Why:* the website handoff already works this way. *(Nomad Pro website doc)*
+25. **One spelling of the bot name.**
+    *Why:* the live name used a hyphen and the drafts an en dash. *(Nomad Pro: CHANGES.md Q8)*
+
+## Added 29 Sep 2026: Koko's rules (see LEARNINGS K1–K15)
+26. **Routines start OFF.** The bot asks during setup which to switch on and switches each on only with the user's yes (token burn). *(K1)*
+27. **Every bot has its own public GitHub repo with its latest version. Fixed files ship from the repo and install on import**, fetched at a pinned tag. *(K2, as amended by K16 on 29 Sep 2026: the repo is public so the installed bot can read it)*
+28. **A clear one-line goal and a thorough intake with Koko come before anything else.** *(K3)*
+29. **Disclaimers are opt-in, never default.** *(K4)*
+30. **Sheets are designed for a human reader first:** clean summary with a period dropdown, one line per item, proper formatting and widths, readable dates, one filterable data tab with a period column, no record-ID codes or "source rows". *(K5)*
+31. **Show a screenshot mock-up before changing any template Sheet layout.** *(K6)*
+32. **Never state facts, places, dates or statuses the user hasn't given.** *(K7)*
+33. **Never embellish or invent in first-person copy.** *(K8)*
+34. **Full like-for-like comparison against the previous version before any republish.** *(K9)*
+35. **Concrete proof (screenshots, test-run evidence) before any release.** *(K10)*
+36. **Koko presses Publish and merges PRs.** *(K11)*
+37. **Messages answer first, short and plain.** *(K12)*
+38. **Routine crons fire at the exact agreed minute.** *(K13)*
+39. **The first message and the routines message are short and correct.** *(K14)*
+40. **Never send email unless the user presses Send.** *(K15)*
+
+## Added 29 Sep 2026: from the Nomad Pro drafts (see LEARNINGS N1–N10)
+41. **One figure, one label, everywhere** (chat, Sheet, dashboard, files). *(N1)*
+42. **Quote numbers from the tool; the bot never does its own arithmetic on them.** *(N2)*
+43. **Mock-ups, samples and examples use fictional data only.** *(N3)*
+44. **The data Sheet needs the Google Sheets connection with edit access.** *(N4)*
+45. **A layout change on a live Sheet needs a one-time update step for existing users.** *(N5)*
+46. **Engine updates reach every live install: pin tagged releases and tell the user before updating.** *(N6)*
+47. **A comparison says what it could not check.** *(N7)*
+48. **When a PR can't be opened from here, hand off exact files with checksums. Koko merges.** *(N8)*
+49. **Redo the clean-agent retest after every change round.** *(N9)*
+50. **If a connection's tools can't be inspected before install, name the actions, not guessed tool names.** *(N10)*
+
+## Added 29 Sep 2026: from the first use of this template (see LEARNINGS D1–D10)
+51. **The documented build command works with no extra flags.** A check that needs an allow-list to pass on a correct bot is a broken check, not a careful one. *(D1)*
+    *Why:* the token-like rule flagged a four-word routine slug of 34 characters, so the documented build failed on a clean bot until an `allow.txt` was added. `build.py` now exempts the slugs `bot.json` and `routines.json` declare.
+52. **The owner's published name is not private data.** Private terms are other people's names and handles, addresses, account numbers and agent IDs. *(D2)*
+    *Why:* `private-terms.example.txt` said to list the owner's name, but J5 requires "Made by Komal Amin" in the listing, so the scan failed on a file that has to say it.
+53. **Every path a document tells you to use has to exist.** *(D3)*
+    *Why:* the build command documents `../private-terms.txt` at the repo root, but only `bot/.gitignore` shipped, so the one file that must never be committed had nothing covering it where it actually lives.
+54. **A bot repo's root README is the bot's, not the template's.** Replace it from `README.template.md` at gate ③. *(D4)*
+    *Why:* nothing said to replace it, so a new bot repo opened with a README describing the template.
+55. **Two CHANGELOGs, two jobs:** the root one is frozen at the template version the bot started from; the bot's own versions live in `bot/CHANGELOG.md`, whose first entry records that template version. *(D5)*
+56. **The spec's skill list is what gets built; `bot.json` `skills[]` is the single source.** The skeleton's three folders are starting points, and `<bot>-main-job` is a shape to copy once per job skill. *(D6)*
+    *Why:* the skeleton ships three skills and the spec produced a different list, with no rule saying which won.
+57. **List every placeholder, not just the obvious one.** `mybot` is one of about forty tokens; the start steps name them all and give a grep that finds anything left. *(D7)*
+58. **Nothing date-driven gets a routine per date.** A routine is a clock, not a calendar: use a daily check at a fixed time, quiet unless due. *(D8)*
+59. **A repo exists before the skills do.** "Repo set up, skills not written yet" is a named state with its own rules (gate ③), and the build stays green through it. *(D9)*
+60. **An example in the template is generic.** No bot's name, data or subject in a skeleton file — the next builder reads an example as an instruction. *(D10)*
+
+## Added 29 Sep 2026: publishing someone else's work
+61. **Never keep a copy of someone else's writing in the repo — and not a summary of it either. What we take from an outside source becomes one of our own rules, where that rule is used, with a one-line credit and a link.** *(K17)*
+    *Why:* `playbook/sources/` held the full text of a third party's X article, pulled in as research while the repos were private. Once the repos are public, keeping it there is republishing another person's work without their say-so — the same rule we already apply to everyone else's data, applied to their writing. Replacing it with a summary was the wrong instinct too: a summary file is still a derivative of their article, sitting in our repo doing nothing but restate it. The useful part was only ever the handful of points we actually act on, and those belong in the checklist, as checks, where someone will read them. *(Koko, 29 Sep 2026)*
+    *So:* fold each point into the rule it informs, in our own words · one line of credit with the author, the title, the date and a link, at the head of the section that uses it · say plainly which of their points we don't take, and why, when copying them would be a mistake (the "paid partnership" label, N4.1) · never restate their figures, examples or the other people they name.
+    *Applies to:* articles, posts, documentation, other people's prompts or skills, support-thread answers, and long quotations. Short attributed quotes are fine where the exact wording is the point. The owner's own approved wording is a different thing and is recorded word for word on purpose.
+    *And the credit stays:* a published author's name and handle, cited for work of theirs we build on, is attribution rather than a leak — so it is never a private term, for the same reason the owner's published name isn't.

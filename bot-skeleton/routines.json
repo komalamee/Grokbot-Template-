@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "mybot-check-in",
+    "name": "MyBot check-in",
+    "description": "Asks one question each evening so the record stays complete.",
+    "schedule": "Daily at 21:00 in the owner's timezone, or the time the owner picks when switching it on.",
+    "cron": "0 21 * * *",
+    "trigger": "time",
+    "enabled": false,
+    "needs": ["Google Sheets"],
+    "quiet_when": "Not switched on by the owner, no record yet, today already logged, or paused.",
+    "job": "Run the check-in in mybot-main-job. Read the Sheet first. Send one short question, at most one message, never a chaser."
+  },
+  {
+    "slug": "mybot-look-ahead",
+    "name": "MyBot look-ahead",
+    "description": "Looks each day for anything falling due soon, and says nothing unless something does.",
+    "schedule": "Daily at 08:00 in the owner's timezone, or the time the owner picks when switching it on.",
+    "cron": "0 8 * * *",
+    "trigger": "time",
+    "enabled": false,
+    "needs": ["Google Sheets"],
+    "quiet_when": "Not switched on by the owner, nothing due inside the look-ahead window, or the owner was already told about it.",
+    "job": "The pattern for anything date-driven: a daily check at a fixed time, quiet unless due. Read the Sheet, work out what falls due inside the window, and send one short message only if something does. A routine has no 'run on this date' trigger, so never try to schedule one per due date. Delete this routine if the bot has nothing date-driven."
+  }
+]
