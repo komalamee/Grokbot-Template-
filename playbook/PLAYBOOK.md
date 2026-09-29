@@ -18,7 +18,8 @@ Each gate needs Koko's OK to move on.
 | **Chief** | Website page, **Nomad Pro only** | Other bots' pages |
 | **Hermes** (Koko's) | Website pages for **every other bot** | — (Bot Studio writes a handoff doc; **Koko passes it on**) |
 
-**Hard rule:** nothing is published, posted, pushed public or sent to anyone outside without Koko's say-so for that exact thing.
+**Hard rule:** nothing is published, posted or sent to anyone outside without Koko's say-so for that exact thing.
+**Second hard rule:** every repo is public (`REPO-STANDARD.md`), so nothing personal or private is ever committed — the owner's published name excepted — and the private-data scan must pass before every commit and every PR.
 **Open:** whether Bot Studio may merge after Koko says yes in chat is still undecided. Until Koko decides, Koko merges.
 
 ## The rules that apply to every gate
@@ -48,17 +49,26 @@ Each gate needs Koko's OK to move on.
 
 ## ③ Spec
 - **Entry:** intake confirmed.
-- **Steps:** make the private repo from this template (with Koko's OK). Fill `docs/SPEC.md` from `templates/SPEC.md`, **from the intake**. Every choice traces to intake or is marked as my suggestion and approved. Approved wording goes word for word into the appendix.
+- **Steps:** make the **public** repo from this template (with Koko's OK) and replace its root `README.md` with `README.template.md`. Fill `docs/SPEC.md` from `templates/SPEC.md`, **from the intake**. Every choice traces to intake or is marked as my suggestion and approved. Approved wording goes word for word into the appendix.
 - **Exit:** Koko approves the spec. First result by message 2. A reason to come back each week.
+
+### The "repo set up, skills not written yet" state
+A repo normally exists before there is anything to put in it: it is made at the start of this gate, and the skills aren't written until gate ④. That is a real state with its own rules, not a half-finished one (Docs Librarian setup, 29 Sep 2026).
+- **Say so.** The root README's **Status** line reads "repo set up, skills not written yet". Nobody should have to read the skills to work out how far along the bot is.
+- **The skeleton's three skills are the placeholder.** Leave `<bot>-getting-started`, `<bot>-core-rules` and `<bot>-main-job` with their `<…>` tokens in place, renamed but unwritten. `python3 build.py` runs clean on them, so the build stays green through this state and a red build always means something is actually wrong. Don't invent skill text to fill the gap: an unwritten skill is obvious, a guessed one isn't.
+- **Placeholder listing.** `listing/LISTING.md` keeps its `<Bot name>` tokens. Never write a claim before the behaviour exists and has been tested (checklist J2) — a listing drafted from the spec reads like proof and isn't.
+- **Placeholder fixed files.** `fixed-files/MANIFEST.md` holds example rows only, marked as examples. Delete `sheet-layout.example.json` now if the bot has no Sheet; adapt it once §5 of the spec is approved.
+- **No args yet.** `args/` stays empty apart from `.gitkeep`. The args JSON is a release artifact from gate ⑥, not something to keep regenerating; a committed args file implies a version that can be staged.
+- **Exit from the state:** the spec is approved and its skill list is written, at which point the Status line moves to "in build".
 
 ## ④ Build
 - **Entry:** approved spec.
 - **Steps:**
   1. Create the source bot. **Set its avatar shape and colour now** (not white).
-  2. Write skills from the skeletons: `<bot>-getting-started`, `<bot>-core-rules`, one job skill, then only what the job needs. Prefix every slug and description with the bot name.
+  2. Write skills from the skeletons. **The spec's skill list (`SPEC.md` §13) is the one that gets built**, not the skeleton's three folders: the skeleton ships `<bot>-getting-started`, `<bot>-core-rules` and `<bot>-main-job` as starting points, and `<bot>-main-job` is a shape to **copy once per job skill** the spec names, not a single skill to stretch over every job. `bot.json` `skills[]` is the single source for which skills exist: add each one there, delete any skeleton folder the spec doesn't name, and the build fails if the two disagree. Prefix every slug and description with the bot name.
   3. Design the data Sheet for a human reader first (`SPEC.md` §5). **Show Koko a screenshot mock-up** with fake data before building it, and before any later layout change.
   4. Write `routines.json`: the one source for slugs, schedules, cron and job text. **Every routine `"enabled": false`.**
-  5. List every connection the skills mention in `bot.json`.
+  5. List every connection the skills mention in `bot.json`. **Verify each `pluginId` with GetPlugin here**, from inside the source bot: it's a bot-side tool, so the spec and the repo can only carry the IDs, not check them (Docs Librarian setup, 29 Sep 2026). `build.py` checks the key and the shape (`pluginId`, digit string); only GetPlugin proves the ID is installed and is the plugin you meant.
   6. Put anything that must be installed on import in `fixed-files/`, with setup steps inside the bot (e.g. in getting-started or an `<bot>-setup` skill). Same for anything else that won't transfer (MCP servers, scripts, an engine).
   7. Copy skills to the live folder only from the repo; back up the live copy first.
 - **Exit:** `python3 build.py` runs clean.
@@ -71,7 +81,7 @@ Each gate needs Koko's OK to move on.
 
 ## ⑥ Package
 - **Entry:** tests pass.
-- **Steps:** `python3 build.py --check-live <live skills folder> --private-terms <file outside the repo>` → args JSON. `python3 banned_scan.py skills listing args --banned banned.txt`. Write `listing/LISTING.md`. For a republish, write the like-for-like comparison (`templates/COMPARE.md`).
+- **Steps:** `python3 build.py --check-live <live skills folder> --private-terms ../private-terms.txt` → args JSON. `python3 banned_scan.py skills listing args --banned banned.txt --private-terms ../private-terms.txt`. Write `listing/LISTING.md`. For a republish, write the like-for-like comparison (`templates/COMPARE.md`).
 - **Exit:** ≤ 92 KB, 0 banned, 0 private, 0 body diffs, comparison clean.
 
 ## ⑦ Pre-publish check
@@ -111,6 +121,7 @@ Gates ④–⑧ again, plus: same source bot · like-for-like comparison against
 - **28 Sep 2026:** website for other bots = Hermes, via a handoff doc Koko passes on. Chief keeps Nomad Pro.
 - **29 Sep 2026 (Koko):** goal and intake gate added; disclaimers no longer a default.
 - **29 Sep 2026 (Koko):** routines start OFF and are switched on only with the user's yes. Replaces "on by default where Koko agreed".
-- **29 Sep 2026 (Koko):** every bot has its own private repo with its latest version; fixed files ship from the repo and install on import.
+- **29 Sep 2026 (Koko):** every bot has its own repo with its latest version; fixed files ship from the repo and install on import.
+- **29 Sep 2026 (Koko):** repos are **public**, this template included, so an imported bot can pull its fixed files straight from its own repo. Replaces "private repo". Nothing personal or private is ever committed, the owner's published name excepted, and the private-data scan must pass before every commit and PR.
 - **29 Sep 2026 (Koko):** Sheets designed for a human reader; no record-ID codes or "source rows" anywhere. Replaces the old "outputs name source rows" rule.
 - Andy's rewards-programme items don't apply (Koko doesn't qualify).

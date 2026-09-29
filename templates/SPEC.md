@@ -51,6 +51,8 @@ All routines start **OFF** (`"enabled": false` in `routines.json`). During setup
 |---|---|---|---|---|---|
 | | `<bot>-…` | e.g. Daily 09:00 · `0 9 * * *` | | | |
 
+**Anything date-driven: a daily check at a fixed time, quiet unless due.** A routine is a clock, not a calendar — it runs on a cron, so it can't be scheduled to fire on a renewal date, a deadline or an expiry, and there is no point trying to keep one routine per date in step with the data. The pattern for renewals, deadlines and expiries is one routine that runs every day at a fixed clock time, reads the Sheet, works out what falls due inside a look-ahead window, and **sends nothing unless something does**. Write it that way here: the clock time and cron in the "When" column, and what "due" means in "Stay quiet when" (window length, and not repeating something the owner has already been told). `routines.json` ships this as `<bot>-look-ahead`; delete it if the bot has nothing date-driven. *(Docs Librarian setup, 29 Sep 2026)*
+
 ## 9. Connections
 | Connection | pluginId (string) | Must / nice | Access | Why | Without it |
 |---|---|---|---|---|---|
@@ -58,8 +60,8 @@ All routines start **OFF** (`"enabled": false` in `routines.json`). During setup
 | Google Drive | "45893413" | | own folder | | |
 | Gmail | "45893410" | | read-only (drafts only; the user presses Send) | | |
 | Google Calendar | "45893411" | | read-only | | |
-Every connection any skill or routine mentions gets packed. Check each with GetPlugin before build.
-**Fixed files installed on import:** what, where they go, how the bot installs them (→ `fixed-files/MANIFEST.md`).
+Every connection any skill or routine mentions gets packed. The IDs above are carried here, not checked here: **GetPlugin runs inside the source bot at gate ④**, because it is a bot-side tool and can't be run from the repo. `build.py` checks the key and the shape (`pluginId`, digit string) only. *(Docs Librarian setup, 29 Sep 2026)*
+**Fixed files installed on import:** what, where they go, which skill installs them, and **which tag of this bot's public repo the bot fetches them from** (→ `fixed-files/MANIFEST.md`). The repo is public precisely so an installed bot can read them.
 
 ## 10. Never
 In Koko's words from the intake, plus the standing rules: never send email (the user presses Send) · never delete unless asked for that exact thing · never guess · never state facts the user hasn't given · never embellish.
@@ -71,7 +73,8 @@ In Koko's words from the intake, plus the standing rules: never send email (the 
 Koko's definition from the intake, as numbered checks. Plus the standard retest (`templates/RETEST.md`): "hi" → first result by message 2 · main job · off-scope · routines question · each routine incl. quiet case and fire time · no connections. Evidence goes in `proof/`.
 
 ## 13. What gets built
-- **Skills**: `<bot>-getting-started` (§4) · `<bot>-core-rules` (§7, §10, §11) · `<bot>-<job>` (§6) · others only if needed.
+- **Skills**: **this list is the one that gets built.** The skeleton ships three folders as starting points; where they differ from this list, this list wins, and `bot.json` `skills[]` is the single source for which skills exist. Copy `<bot>-main-job` once per job skill named here rather than stretching one skill over every job. Delete any skeleton folder this list doesn't name. *(Docs Librarian setup, 29 Sep 2026)*
+  `<bot>-getting-started` (§4) · `<bot>-core-rules` (§7, §10, §11) · one skill per job in §6 · others only if needed.
 - **Routines**: `routines.json`, every one off (§8).
 - **Fixed files**: `fixed-files/` (§9).
 - **Sheet**: layout from §5 (in `fixed-files/` if every install must build the same Sheet).

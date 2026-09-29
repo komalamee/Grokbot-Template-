@@ -27,6 +27,10 @@
 
 ## Made by
 Komal Amin
+<!-- Required (checklist J5). The owner's published name is the one personal detail allowed in a public
+     repo, and it is never a private term: putting it in private-terms.txt makes the scan fail here. -->
+
+
 
 <optional: only if the intake agreed a disclaimer>
 ---

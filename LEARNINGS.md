@@ -6,15 +6,63 @@ The organised rulebook is `playbook/GUARDRAILS.md`; this file is the dated log.
 
 ---
 
+## 29 Sep 2026: from the Docs Librarian setup (the first real use of this template)
+
+The Docs Librarian repo was set up by following this template's own start steps, and the builder wrote up what got in the way. Everything below is a gap in the template, not in that bot. Guardrails 51–60.
+
+**D1. The documented build command has to work with no extra flags.** A check that needs an allow-list to pass on a correct bot is a broken check, not a careful one.
+- Why: `build.py`'s token-like rule, `\b[A-Za-z0-9_-]{32,}\b`, matches any kebab-case slug of 32 characters or more. A four-word routine slug (`docs-librarian-monthly-look-ahead`, 33 characters) was read as a leaked secret, so the documented build failed on a clean bot and only passed after an `allow.txt` and `--allow` were added. Worse than the lost time: once a builder is used to passing an allow-list, a real leak gets waved through the same way.
+- Landed: `bot-skeleton/build.py` (the slugs `bot.json` and `routines.json` declare are exempt from the token-like rule; every other pattern is untouched and a genuine long token still fails), checklist H3a, GUARDRAILS 51.
+
+**D2. The owner's published name is not private data.** Private terms are for **other people's** names and handles, postal addresses, account numbers and agent IDs.
+- Why: `private-terms.example.txt` said to list the owner's and builder's names, but checklist J5 requires "Made by Komal Amin" in the listing. Following both made the scan fail on a file that has to carry the name, with no way to satisfy the checklist and the scan at once.
+- Landed: `bot-skeleton/private-terms.example.txt` (rewritten: what goes in, and that the owner's published name stays out), `bot-skeleton/banned_scan.py` docstring, `bot-skeleton/listing/LISTING.md`, checklist H3 + J5, GUARDRAILS 12 + 52. Skills are the other way round and unchanged: no owner name, pronoun, city or timezone in a skill.
+
+**D3. Every path a document tells you to use has to exist.**
+- Why: the build and scan commands document `--private-terms ../private-terms.txt`, i.e. the repo root, but only `bot-skeleton/.gitignore` shipped. The one file that must never be committed had nothing covering it where it actually lives — a trap in a public repo, and the kind of thing that is only ever found by someone running the command for the first time.
+- Landed: a root `.gitignore` (`private-terms.txt`, `*.local.*`, `.env*`, `__pycache__/`), `.env*` added to `bot-skeleton/.gitignore`, `playbook/REPO-STANDARD.md` layout, and `build.py` now fails with a plain sentence when a `--private-terms` file isn't there instead of a traceback. GUARDRAILS 53.
+
+**D4. A bot repo's root README is the bot's, not the template's.**
+- Why: nothing in the start steps said to replace it, so a new bot repo opened with a README explaining the master template, which is about as wrong as a first impression gets in a public repo.
+- Landed: `README.template.md` (new, deliberately different from `bot-skeleton/README.md`: the repo, its status and what may never be committed, not the bot's folder contents), start step 3 in `README.md`, `playbook/PLAYBOOK.md` gate ③, `playbook/QUICK-REFERENCE.md`, checklist L7, GUARDRAILS 54.
+
+**D5. Two CHANGELOGs, two jobs.** The root one is the template's, frozen at the version the bot started from; `bot/CHANGELOG.md` holds the bot's own versions, and its first entry records that template version.
+- Why: a repo made from the template arrives with two files of the same name and nothing saying which gets the bot's entries, so either could drift into the other's job.
+- Landed: `playbook/REPO-STANDARD.md` ("The two CHANGELOGs"), `bot-skeleton/CHANGELOG.md`, checklist L3 + L7, GUARDRAILS 55.
+
+**D6. The spec's skill list is what gets built, and `bot.json` `skills[]` is the single source for it.**
+- Why: the skeleton ships `getting-started`, `core-rules` and `main-job`, the spec produced a different list, and no rule said which won — so the skeleton's three folders read like a quota to fill or a limit to stay inside.
+- Landed: `templates/SPEC.md` §13 (this list wins; copy `<bot>-main-job` once per job skill rather than stretching one skill over several jobs; delete any folder the list doesn't name), `playbook/PLAYBOOK.md` gate ④ step 2, `playbook/QUICK-REFERENCE.md`, `bot-skeleton/README.md`, `bot-skeleton/skills/mybot-main-job/SKILL.md`, checklist H11, GUARDRAILS 56.
+
+**D7. List every placeholder, not just the obvious one.**
+- Why: the start steps named only `mybot` / `MyBot`, but the skeleton carries around forty tokens — `<Bot name>`, `<bot>`, `<one job>`, `<one-line outcome>`, `<date>`, `<routine 1>`, `____` and the rest. Each one left behind is a line the bot ships to a user.
+- Landed: the token table in `README.md` start step 4, with `grep -rnE "mybot|MyBot|<[^<>]{1,40}>|____" bot/` to find anything left; checklist L8; GUARDRAILS 57.
+
+**D8. A routine is a clock, not a calendar: anything date-driven is a daily check at a fixed time, quiet unless due.**
+- Why: `routines.json` shipped one time-of-day example, and nothing said how to handle a renewal, a deadline or an expiry — which is most of what a bot is asked to watch. There is no "fire on this date" trigger, so the only working pattern is one routine that runs daily at a fixed time, reads the Sheet, and says nothing unless something falls due inside a look-ahead window. (The build never actually required a clock time; it only checks a stated time against the cron and insists the schedule says "in the owner's timezone". The gap was the missing convention, not the check.)
+- Landed: a second routine in `bot-skeleton/routines.json` (`mybot-look-ahead`, daily at 08:00, quiet unless due) as the pattern to copy, `templates/SPEC.md` §8, `templates/INTAKE.md` §8, `playbook/INTAKE-GUIDE.md` topic 8, `playbook/QUICK-REFERENCE.md`, checklist E10, GUARDRAILS 58.
+
+**D9. A repo exists before the skills do, and that state needs its own rules.**
+- Why: the repo is made at gate ③ and the skills aren't written until gate ④, so every bot spends time as a repo full of placeholders with no convention for it. Left unsaid, the gap gets filled with invented skill text or a listing drafted from the spec, and an unwritten skill is obvious where a guessed one isn't.
+- Landed: `playbook/PLAYBOOK.md` gate ③ ("repo set up, skills not written yet": a Status line in the README, the skeleton's three skills left as placeholders, a build that stays green on them, placeholder listing and manifest, and no args until gate ⑥), `README.template.md` Status line, `README.md`, GUARDRAILS 59.
+
+**D10. An example in the template is generic.** No bot's name, data or subject in a skeleton file: the next builder reads an example as an instruction.
+- Why: `fixed-files/README.md` used the Docs Librarian's own folders and index Sheet as its example, which is how one bot's shape quietly becomes every bot's default. The manifest's example row also pinned the installer to `mybot-getting-started` when that is a per-bot choice, and it said nothing about which tag the file comes from.
+- Landed: `bot-skeleton/fixed-files/README.md` (generic examples, and a line saying to keep them that way), `bot-skeleton/fixed-files/MANIFEST.md` (marked as an example, `<bot>-setup`, and a pinned tag), GUARDRAILS 60.
+- Two more from the same list: the repo name is only a label, so `grokbot-<bot>` spelling, hyphens and capitals are free and nothing in the build reads it — what must be spelled one way everywhere is the bot's own name (`playbook/REPO-STANDARD.md`, `README.md` step 1, checklist H10). And `SPEC.md`'s GetPlugin check can't run from the repo, because GetPlugin is a bot-side tool: plugin IDs are carried in the spec and verified inside the source bot at gate ④, with `build.py` checking only the key and the shape (`templates/SPEC.md` §9, `playbook/PLAYBOOK.md` gate ④ step 5, checklist G3, GUARDRAILS 4). The feedback placed that check in "SPEC Appendix B"; the template's `SPEC.md` has only an Appendix A, and the check lives in §9, which is where the note went.
+
+---
+
 ## 29 Sep 2026: from Koko
 
 **K1. Routines always start OFF.** During setup the bot asks which ones to switch on, and switches each on only when the user says yes. Every run burns tokens.
 - Source: Koko, 29 Sep 2026 (Docs Librarian intake, 17:19 and 17:38). Backed up by Nomad Pro: a weekly HMRC re-crawl of 143 pages per user was flagged as heavy once it was on for every install (`CHANGES-2026-09-28.md`, Issues).
 - Landed: `bot-skeleton/routines.json` (`"enabled": false`), `build.py` (fails otherwise), getting-started skill (Message 3), `templates/SPEC.md` §8, `templates/INTAKE.md` §8, checklist C7 + E9.
 
-**K2. Every bot has its own private GitHub repo holding its latest version. Fixed files ship from the repo and install on import.**
+**K2. Every bot has its own GitHub repo holding its latest version. Fixed files ship from the repo and install on import.**
 - Source: Koko, 29 Sep 2026; Docs Librarian `docs/INTAKE.md` "GitHub repo (Koko)" (review the whole process end to end; fixed files installed on the user's computer on import).
 - Landed: `README.md`, `playbook/REPO-STANDARD.md`, `bot-skeleton/fixed-files/`, checklist L1 + L5.
+- **Amended the same day by K16:** as first written this rule said *private* repo, which is what made the fixed files impossible to deliver. The repos are public.
 
 **K3. A clear one-line goal plus a thorough intake conversation with Koko is the key.** Nothing is built until Koko agrees the goal line and confirms the intake.
 - Source: Koko, 29 Sep 2026; pipeline skill "The two things that matter most".
@@ -68,6 +116,10 @@ The organised rulebook is `playbook/GUARDRAILS.md`; this file is the dated log.
 - Source: Koko, 29 Sep 2026. Docs Librarian (17:07): "Never send emails on behalf of the user unless the user expressly clicks send."
 - Landed: core-rules skill §4, `bot.json` memory, checklist D9.
 
+**K16. Bot repos are PUBLIC — this template included — and nothing personal or private is ever committed, the owner's published name excepted.** A bot installed on someone else's account can read a public repo, so it can pull its fixed files (guidance, folder layouts, Sheet templates) straight from its own repo at setup. That is the whole reason for the change, and it settles the open question v0.1 carried about fixed files versus a private repo. In exchange, the repo is the product: everything in it is published the moment it is pushed, so the private-data scan must pass before **every commit and every pull request**, and a hit is a stop rather than a warning. What may never be committed: other people's names and handles, email addresses, postal addresses, account and invoice numbers, keys and tokens, agent IDs, `.env` files, computer usernames and paths, private Sheet, Doc and Drive links, working notes about anyone, and screenshots carrying any of those. It was never the repo that kept the prompts secret — anyone who installs a published template can read its skills — so what is lost is only the hiding place for notes, drafts and tests, which now have to be clean instead.
+- Source: Koko, 29 Sep 2026. Supersedes the "private repo" half of K2 and guardrail 23.
+- Landed: `README.md`, `README.template.md`, `playbook/REPO-STANDARD.md`, `playbook/PLAYBOOK.md` (hard rules, gate ③, decisions log), `playbook/QUICK-REFERENCE.md`, `playbook/GUARDRAILS.md` 23 + 27, checklist L1 + L4 + L5, `bot-skeleton/README.md`, `bot-skeleton/fixed-files/README.md`, `bot-skeleton/proof/README.md`, `templates/SPEC.md` §9, `.gitignore`, `CHANGELOG.md` v0.1 open question 2.
+
 ---
 
 ## 29 Sep 2026: from the Nomad Pro v2 drafts (27–29 Sep 2026)
@@ -112,6 +164,9 @@ The organised rulebook is `playbook/GUARDRAILS.md`; this file is the dated log.
 ---
 
 ## 28 Sep 2026: Nomad Pro guardrails (full text and sources in `playbook/GUARDRAILS.md` 1–25)
+
+**Superseded since:** G23 ("bot repo private; public repos hold code only") — every repo is public from 29 Sep 2026; see K16 and guardrail 23. G12 still stands for skills, but the owner's published name is allowed in the listing; see D2.
+
 G1 Never delete a bot with a live listing; retire the listing first. · G2 Update a live template only from the bot that owns its listing. · G3 "Optional" still means pack the plugin. · G4 Key `pluginId`, string value; check with GetPlugin. · G5 Keep every share call's args in the repo. · G6 Args ≤ 92 KB. · G7 Trim wording, never behaviour; keep a preservation table. · G8 Set avatar shape and colour before packaging; icon change = restage. · G9 No white or placeholder icon. · G10 One source for routine slugs; never rename a published slug. · G11 Live skills = args bodies; no build-time swaps. · G12 No owner names, pronouns, city or timezone in skills. · G13 Cron matches the words. · G14 Private-data hits fail the build. · G15 Build from the repo, not the shared live folder. · G16 Prefix slugs and descriptions with the bot name. · G17 Back up the live copy before every overwrite. · G18 First result by message 2. · G19 Routines silent unless something changed; ≤ 1 message per run. · G20 Tool output obeys the banned list. · G21 Nomad Pro only: records, never verdicts. · G22 Social only after the card is final and live. · G23 Bot repo private; public repos hold code only. · G24 Never guess the marketplace link. · G25 One spelling of the bot name.
 
 ---

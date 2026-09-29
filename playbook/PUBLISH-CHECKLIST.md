@@ -1,6 +1,6 @@
 # Publish checklist: hard go / no-go
 
-Version 0.1 (29 Sep 2026). Adapted from Bot Studio's checklist (28 Sep 2026, updated 29 Sep 2026) with Koko's 29 Sep rules added (marked **new**).
+Version 0.2 (29 Sep 2026). Adapted from Bot Studio's checklist (28 Sep 2026, updated 29 Sep 2026) with Koko's 29 Sep rules added (marked **new**) and the first-use items of 29 Sep 2026 (marked **v0.2**).
 **Every box ticked = GO. Any box empty = NO-GO.** Who ticks: **BS** Bot Studio, **K** Koko. Section N comes from Andy's article.
 Copy this file into the bot's PR description or `docs/` for each release.
 
@@ -48,6 +48,7 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 - [ ] **E7** Slugs identical in `routines.json`, getting-started and args (build check). · BS
 - [ ] **E8** "stop", "pause" and "change time" work. · BS
 - [ ] **E9 new** Every routine starts OFF (`"enabled": false`). The bot asks during setup which to switch on and switches each on only after the user says yes to it. · BS
+- [ ] **E10 v0.2** Anything date-driven (renewals, deadlines, expiries) is a **daily check at a fixed time, quiet unless due** — never a routine per due date. The schedule names a clock time in the owner's timezone, and the quiet rule says what "due" means. · BS
 
 ## F. The data Sheet (user-owned, human-first)
 - [ ] **F1** One editable Google Sheet is the single master record, in the owner's Drive, never shared. · BS
@@ -60,21 +61,23 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 ## G. Connections parity
 - [ ] **G1** Every plugin any skill or routine mentions is listed (grep the skills). · BS
 - [ ] **G2** Every listed plugin is **packed**. "Optional in skills" still means pack it. · BS
-- [ ] **G3** Each checked with **GetPlugin**: installed on the account. · BS
+- [ ] **G3** Each checked with **GetPlugin**: installed on the account. Run **inside the source bot at gate ④** — GetPlugin is a bot-side tool and can't be run from the repo, so `SPEC.md` §9 and `build.py` only carry and shape-check the IDs. · BS
 - [ ] **G4** Key is `pluginId`, value a **string** ("45893414"); no `plugin_id`. · BS
 - [ ] **G5** Each plugin description says access level and use in one line. · BS
 
 ## H. Package
 - [ ] **H1** Args built by `build.py` from the repo skills; no hand edits, no build-time text swaps. · BS
 - [ ] **H2** Args ≤ **92,000 bytes** (host limit sits between ~98 KB and ~103 KB). · BS
-- [ ] **H3** Private-data scan = **0** (names, emails, paths, agent IDs, owner's city/timezone, tokens). · BS
+- [ ] **H3** Private-data scan = **0** (other people's names, emails, addresses, account numbers, paths, agent IDs, owner's city/timezone, tokens). The owner's **published name** is not a private term: the listing has to carry it (J5). · BS
+- [ ] **H3a v0.2** The build and the scan passed with the documented flags only — no `allow.txt`, no extra arguments. If a check needed one, the check gets fixed and the fix goes upstream. · BS
 - [ ] **H4** Banned-phrase scan = **0** on skills + listing + args. · BS
 - [ ] **H5** Live skills == args bodies (`build.py --check-live`), 0 diffs. · BS
 - [ ] **H6** Nothing owner-specific baked in ("21:00 your time", "you/the owner"; no names or pronouns). · BS
 - [ ] **H7** Slugs prefixed with the bot name; descriptions start "<Bot> <job>:". · BS
 - [ ] **H8** Only this bot's skills packed. · BS
 - [ ] **H9** Memories: general job facts only; none of Koko's. · BS
-- [ ] **H10** Name spelled one way everywhere (hyphen vs en dash). · BS
+- [ ] **H10** Name spelled one way everywhere (hyphen vs en dash). The repo name doesn't matter; the bot's name does. · BS
+- [ ] **H11 v0.2** `bot.json` `skills[]` matches the skill list in `SPEC.md` §13 exactly: every skill the spec names exists, and no unwritten skeleton folder is still packed. · BS
 
 ## I. Avatar
 - [ ] **I1** Avatar shape and colour set on the source bot **before** packaging (uploaded pictures don't copy). · BS
@@ -86,7 +89,7 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 - [ ] **J2** Every claim maps to a tested behaviour; nothing the bot can't do. · BS
 - [ ] **J3 new** No embellishment or invented detail in first-person copy (listing, message 1, any "I …" line). · BS
 - [ ] **J4** 3–4 example first messages (templates can't carry example prompts). · BS
-- [ ] **J5** Attribution "Komal Amin". · K
+- [ ] **J5** Attribution "Komal Amin". This is the one personal detail allowed in a public repo, and it is never a private term (H3). · K
 
 ## K. Proof, compare and test
 - [ ] **K1** Clean-agent retest done after the last change: "hi", main job, off-scope, routines question, each routine incl. quiet case, no connections. `docs/RETEST.md` filled. · BS
@@ -95,12 +98,14 @@ Bot: ________ · Version: v____ · Date (ICT): ________
 - [ ] **K4** Koko has read the comparison, retest and proof. · K
 
 ## L. Repo
-- [ ] **L1** The bot's private repo holds this exact version: skills, `routines.json`, `bot.json`, fixed files, args, listing, proof. · BS
+- [ ] **L1** The bot's public repo holds this exact version: skills, `routines.json`, `bot.json`, fixed files, args, listing, proof. · BS
 - [ ] **L2** PR **merged by Koko before or at publish**. · K
-- [ ] **L3** Version agreed; tag + CHANGELOG + listing URL added right after Publish. · BS
-- [ ] **L4** Any public repo holds code only (no notes, drafts or personal data) and scans clean. · BS
-- [ ] **L5 new** Fixed files install on import: tested on a clean install, and the setup step tells the user what it installs and where. · BS
+- [ ] **L3** Version agreed; tag + `bot/CHANGELOG.md` + listing URL added right after Publish. · BS
+- [ ] **L4 v0.2** The repo is public and clean: no other people's names or handles, emails, addresses, account numbers, keys, tokens, agent IDs, `.env` files, computer usernames or paths, private Sheet/Doc/Drive links, or working notes about anyone. The scan passed on the commit being merged, not just on an earlier one. · BS
+- [ ] **L5 new** Fixed files install on import: tested on a clean install from the public repo at a pinned tag, and the setup step tells the user what it installs and where. · BS
 - [ ] **L6 new** Lessons found while building this bot are in a PR to `grokbot-template` (`LEARNINGS.md` + the file it affects). · BS
+- [ ] **L7 v0.2** The root `README.md` came from `README.template.md` and describes this bot, with its Status line current. The root `CHANGELOG.md` is untouched, and `bot/CHANGELOG.md`'s first entry names the template version it matches. · BS
+- [ ] **L8 v0.2** No placeholders left: `grep -rnE "mybot|MyBot|<[^<>]{1,40}>|____" bot/` is clear of anything undecided. · BS
 
 ## M. Stage and go
 - [ ] **M1** Staged from inside the source bot; for an update, the bot that owns the live listing. · BS

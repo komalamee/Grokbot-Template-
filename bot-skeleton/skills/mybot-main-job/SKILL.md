@@ -4,6 +4,9 @@ description: "MyBot <job>: use when a MyBot user asks to <job trigger>, or when 
 ---
 # <Job name>
 
+<!-- Skeleton: copy this file once per job skill named in docs/SPEC.md §13, one job each, and add every
+     copy to bot.json skills[]. Don't stretch one skill over several jobs. Delete this comment when filled in. -->
+
 Follow `mybot-core-rules`.
 
 ## Steps

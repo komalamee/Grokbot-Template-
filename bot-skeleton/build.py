@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build create_bot_share_json args for one Grok Bot template, with hard checks.
 
-Generalised from the Nomad Pro v2 build.py (28 Sep 2026). grokbot-template v0.1 (29 Sep 2026): routines must start off.
+Generalised from the Nomad Pro v2 build.py (28 Sep 2026). grokbot-template v0.1 (29 Sep 2026): routines
+must start off. v0.2 (29 Sep 2026): declared slugs are exempt from the token-like rule.
 
   python3 build.py [--root .] [--private-terms ../private-terms.txt] [--allow allow.txt] [--check-live DIR]
 
@@ -10,7 +11,12 @@ Writes:  args/create_bot_share_json.args.json  (only when every check passes; el
 Fails (exit 1) on: args > 92,000 bytes · any private-data hit · plugin key not "pluginId" or id not a
 digit string · gettingStarted not packed · routine slug problems · cron/time mismatch · a routine not
 "enabled": false (Koko, 29 Sep 2026: routines start off; the owner switches each on) · a plugin the
-skills or routines mention but the args don't pack · (--check-live) live SKILL.md != repo SKILL.md.
+skills or routines mention but the args don't pack · a --private-terms file that isn't there ·
+(--check-live) live SKILL.md != repo SKILL.md.
+The slugs bot.json and routines.json declare are exempt from the token-like rule: they are public
+kebab-case names, and a slug of 32 characters or more (e.g. a four-word routine slug) used to fail the
+documented build until an --allow file was added (Docs Librarian setup, 29 Sep 2026). --allow is still
+there for other public strings, such as an engine URL.
 Never edits skill text at build time: fix the source file instead (Nomad Pro lesson: live != args).
 """
 from __future__ import annotations
@@ -105,6 +111,10 @@ def main():
                   f"{r['job']} Send nothing when: {r['quiet_when']}"
         routines.append({"slug": s, "name": r["name"], "description": r["description"], "content": content})
 
+    # Slugs this bot declares for itself. Public kebab-case names, so the token-like rule below skips them.
+    declared = {gs, *cfg["skills"], *cfg.get("legacy_routine_slugs", []),
+                *(r["slug"] for r in routines_src if isinstance(r.get("slug"), str))}
+
     # Connections parity: every plugin named in skills/routines must be packed
     alltext = " ".join(x["content"] + " " + x["description"] for x in skills + routines)
     for name in KNOWN_PLUGINS:
@@ -117,13 +127,23 @@ def main():
 
     # Private-data scan (fails; allow-list is explicit)
     allow = [l.strip() for l in Path(a.allow).read_text().splitlines() if l.strip() and not l.startswith("#")] if a.allow else []
-    terms = [l.strip().lower() for l in Path(a.private_terms).read_text().splitlines()
-             if l.strip() and not l.startswith("#")] if a.private_terms else []
+    terms = []
+    if a.private_terms:
+        pt = Path(a.private_terms)
+        if pt.exists():
+            terms = [l.strip().lower() for l in pt.read_text().splitlines() if l.strip() and not l.startswith("#")]
+        else:
+            fail(f"--private-terms {pt} not found: copy private-terms.example.txt to it so the scan can run "
+                 f"(it is gitignored, and the repo is public)")
     blob = json.dumps(args, ensure_ascii=False, indent=1)
     for al in allow: blob = blob.replace(al, "[allowed]")
+    slugged = blob
+    for d in sorted(declared, key=len, reverse=True):
+        if d: slugged = slugged.replace(d, "[slug]")
     for pat, label in PRIVATE_PATTERNS:
-        for m in re.finditer(pat, blob):
-            fail(f"private data ({label}): ...{blob[max(0, m.start()-40):m.end()+20]!r}")
+        text = slugged if label == "token-like string" else blob
+        for m in re.finditer(pat, text):
+            fail(f"private data ({label}): ...{text[max(0, m.start()-40):m.end()+20]!r}")
     low = blob.lower()
     for t in terms:
         if re.search(rf"(?<![a-z0-9]){re.escape(t)}(?![a-z0-9])", low): fail(f"private term found: {t!r}")

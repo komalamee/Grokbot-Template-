@@ -8,7 +8,11 @@ Generalised from the Nomad Pro engine's tools/banned_scan.py (28 Sep 2026).
 1. Banned phrases = GENERIC list below + the bot's own banned.txt (one regex per line).
    Text between <!-- banned-list:start --> and <!-- banned-list:end --> is the bot's do-not-say list and is skipped.
    allow.txt: exact phrases removed from a line before matching (official titles quoted verbatim, etc.). Keep it short.
-2. Private data: generic leak markers + --private-terms FILE (names, handles, cities; keep it OUTSIDE the repo).
+2. Private data: generic leak markers + --private-terms FILE (other people's names and handles, addresses,
+   account numbers, agent IDs; the file lives in the repo root and is gitignored).
+   The owner's published name is NOT a private term: the listing has to say "Made by Komal Amin"
+   (checklist J5), so listing it makes the scan fail on a file that must carry it (Docs Librarian setup,
+   29 Sep 2026). Skills are the other way round: no owner name, pronoun, city or timezone (guardrail 12).
 Exit 1 on any hit. This file is skipped (it contains the patterns).
 """
 from __future__ import annotations

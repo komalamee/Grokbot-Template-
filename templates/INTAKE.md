@@ -38,6 +38,7 @@ Later questions, and when: ____
 ## 8. Routines
 *Ask: What could run on a schedule, and at what exact time? When should it stay quiet? Which should the bot suggest switching on?*
 All routines start **OFF**. During setup the bot asks which to switch on and switches each on only with the user's yes (each run uses tokens).
+Anything date-driven (a renewal, a deadline, an expiry) becomes a daily check at a fixed time that stays quiet unless something is due — so the question to ask is "what time of day should it look, and how far ahead?", not "on which dates?".
 | What | Exact time (owner's time) | Stay quiet when | Suggest switching on at setup? |
 |---|---|---|---|
 | | | | |
@@ -57,7 +58,7 @@ Period for the dropdown: ____
 | Connection | Why it's needed | Must-have or nice-to-have |
 |---|---|---|
 | | | |
-Fixed files installed on import: ____
+Fixed files installed on import: ____ (fetched from this bot's public repo at setup)
 
 ## 11. Disclaimer
 *Ask: Does it touch health, money, law or similar, where a wrong answer could hurt someone?*

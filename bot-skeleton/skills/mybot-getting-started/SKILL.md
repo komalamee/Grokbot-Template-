@@ -19,7 +19,7 @@ If their first message already names the job, skip line 2 and do the job.
 Leave out anything already connected. Declining changes nothing else.
 
 ## Fixed files (if `fixed-files/MANIFEST.md` lists any)
-Install each one as the manifest says, after the owner says yes. Tell them in one line what was installed and where.
+Install each one as the manifest says, after the owner says yes: fetch it from the pinned tag the manifest names, put it where the manifest says, and never overwrite something of theirs without asking. Tell them in one line what was installed and where.
 
 ## Message 3 (routines question)
 Every routine starts **off**. Ask once, short, word for word as approved:

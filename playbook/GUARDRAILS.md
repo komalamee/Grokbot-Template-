@@ -1,7 +1,7 @@
 # Guardrails
 
-Version 0.1 (29 Sep 2026). Each item: **Rule** · *Why* (what happened) · source.
-Items 1–25: Bot Studio's Nomad Pro lessons (28 Sep 2026; item 21 updated 29 Sep). Items 26 on: added 29 Sep 2026. The dated log of every lesson, with IDs, is `../LEARNINGS.md`.
+Version 0.2 (29 Sep 2026). Each item: **Rule** · *Why* (what happened) · source.
+Items 1–25: Bot Studio's Nomad Pro lessons (28 Sep 2026; item 21 updated 29 Sep). Items 26 on: added 29 Sep 2026. Items 51–60: the first use of this template (Docs Librarian setup, 29 Sep 2026). The dated log of every lesson, with IDs, is `../LEARNINGS.md`.
 Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = from Bot Studio's brief, no file evidence.
 
 ## Listings and bots
@@ -15,6 +15,7 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
    *Why:* v2 dropped Gmail, Calendar and Drive by reading "optional" as "don't pack". *(Nomad Pro: V1-V2-COMPARISON §1)*
 4. **Key is `pluginId`, value is a string. Check each with GetPlugin before staging.**
    *Why:* `plugin_id` got mixed up with `pluginId`; a wrong key silently packs no connections. *(brief; build.py; TRIM-LOG)*
+   *Where:* GetPlugin runs **inside the source bot at gate ④**, not from the repo — it is a bot-side tool, so the spec and `build.py` can only carry and shape-check the IDs. *(Docs Librarian setup, 29 Sep 2026)*
 5. **Keep a copy of every share call's args in the repo.**
    *Why:* nobody could prove what v1 actually packed. *(Nomad Pro: V1-V2-COMPARISON "Still unverified")*
 
@@ -37,6 +38,7 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
     *Why:* build.py swapped "21:00 Bangkok time" for "21:00 your time" in the args only. *(Nomad Pro: build.py)*
 12. **No owner-specific words in skills: no names, pronouns, city or timezone.**
     *Why:* Koko's timezone and the wrong pronoun were baked into skills every installer gets. *(Nomad Pro: RETEST.md, prev-round getting-started)*
+    *Not the listing:* the listing must say "Made by Komal Amin" (J5). The owner's **published name** is allowed there and is never a private term; everything else about the owner still stays out. *(Docs Librarian setup, 29 Sep 2026)*
 13. **Cron must match the words, to the minute.**
     *Why:* Nomad Pro's calendar review said "Sunday 18:00" but its cron was `5 18 * * 0`, so it ran 5 minutes late. *(Nomad Pro: CHANGES-2026-09-28)*
 14. **Private-data hits fail the build, with an explicit allow-list.**
@@ -61,8 +63,8 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
 ## Launch and public assets
 22. **Schedule social only after the card is final and live. Any link or icon change → Brandy P rechecks every scheduled asset.**
     *Why:* scheduled assets went stale. *(brief)*
-23. **Bot repo private. A public repo (e.g. an engine) holds code only. Scan before every push.**
-    *Why:* a public repo exposed working notes. *(brief)*
+23. **Every bot repo is public, this template included. Nothing personal or private is ever committed, and the private-data scan must pass before every commit and PR.**
+    *Why:* a bot installed on someone else's account can't read a private repo, so fixed files couldn't reach the user. Public repos fix that and move the whole burden onto the scan. The old rule ("bot repo private; a public repo holds code only") was written after a public repo exposed working notes — which is exactly what the scan now has to catch. The owner's published name is the one personal detail allowed, because the listing has to carry it. *(brief; Koko, 29 Sep 2026)*
 24. **Never guess the marketplace link in public copy; use `[MARKETPLACE LINK]` until Koko sends it.**
     *Why:* the website handoff already works this way. *(Nomad Pro website doc)*
 25. **One spelling of the bot name.**
@@ -70,7 +72,7 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
 
 ## Added 29 Sep 2026: Koko's rules (see LEARNINGS K1–K15)
 26. **Routines start OFF.** The bot asks during setup which to switch on and switches each on only with the user's yes (token burn). *(K1)*
-27. **Every bot has its own private GitHub repo with its latest version. Fixed files ship from the repo and install on import.** *(K2)*
+27. **Every bot has its own public GitHub repo with its latest version. Fixed files ship from the repo and install on import**, fetched at a pinned tag. *(K2, as amended by K16 on 29 Sep 2026: the repo is public so the installed bot can read it)*
 28. **A clear one-line goal and a thorough intake with Koko come before anything else.** *(K3)*
 29. **Disclaimers are opt-in, never default.** *(K4)*
 30. **Sheets are designed for a human reader first:** clean summary with a period dropdown, one line per item, proper formatting and widths, readable dates, one filterable data tab with a period column, no record-ID codes or "source rows". *(K5)*
@@ -96,3 +98,20 @@ Sources named "Nomad Pro:" are Bot Studio's Nomad Pro v2 drafts. "(brief)" = fro
 48. **When a PR can't be opened from here, hand off exact files with checksums. Koko merges.** *(N8)*
 49. **Redo the clean-agent retest after every change round.** *(N9)*
 50. **If a connection's tools can't be inspected before install, name the actions, not guessed tool names.** *(N10)*
+
+## Added 29 Sep 2026: from the first use of this template (see LEARNINGS D1–D10)
+51. **The documented build command works with no extra flags.** A check that needs an allow-list to pass on a correct bot is a broken check, not a careful one. *(D1)*
+    *Why:* the token-like rule flagged a four-word routine slug of 34 characters, so the documented build failed on a clean bot until an `allow.txt` was added. `build.py` now exempts the slugs `bot.json` and `routines.json` declare.
+52. **The owner's published name is not private data.** Private terms are other people's names and handles, addresses, account numbers and agent IDs. *(D2)*
+    *Why:* `private-terms.example.txt` said to list the owner's name, but J5 requires "Made by Komal Amin" in the listing, so the scan failed on a file that has to say it.
+53. **Every path a document tells you to use has to exist.** *(D3)*
+    *Why:* the build command documents `../private-terms.txt` at the repo root, but only `bot/.gitignore` shipped, so the one file that must never be committed had nothing covering it where it actually lives.
+54. **A bot repo's root README is the bot's, not the template's.** Replace it from `README.template.md` at gate ③. *(D4)*
+    *Why:* nothing said to replace it, so a new bot repo opened with a README describing the template.
+55. **Two CHANGELOGs, two jobs:** the root one is frozen at the template version the bot started from; the bot's own versions live in `bot/CHANGELOG.md`, whose first entry records that template version. *(D5)*
+56. **The spec's skill list is what gets built; `bot.json` `skills[]` is the single source.** The skeleton's three folders are starting points, and `<bot>-main-job` is a shape to copy once per job skill. *(D6)*
+    *Why:* the skeleton ships three skills and the spec produced a different list, with no rule saying which won.
+57. **List every placeholder, not just the obvious one.** `mybot` is one of about forty tokens; the start steps name them all and give a grep that finds anything left. *(D7)*
+58. **Nothing date-driven gets a routine per date.** A routine is a clock, not a calendar: use a daily check at a fixed time, quiet unless due. *(D8)*
+59. **A repo exists before the skills do.** "Repo set up, skills not written yet" is a named state with its own rules (gate ③), and the build stays green through it. *(D9)*
+60. **An example in the template is generic.** No bot's name, data or subject in a skeleton file — the next builder reads an example as an instruction. *(D10)*

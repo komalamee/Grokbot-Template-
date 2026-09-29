@@ -1,6 +1,6 @@
 # Intake guide: how to run the conversation with Koko
 
-Version 0.1 (29 Sep 2026). Use at gate ② (Goal and intake), after Koko picks an idea and before any spec.
+Version 0.2 (29 Sep 2026). Use at gate ② (Goal and intake), after Koko picks an idea and before any spec.
 Why: the bot must match how Koko pictures it. A clear goal and a real conversation matter more than any rule list.
 Write-up template: `templates/INTAKE.md` → the bot's `docs/INTAKE.md`.
 
@@ -52,6 +52,7 @@ Write-up template: `templates/INTAKE.md` → the bot's `docs/INTAKE.md`.
 **8. Specific routines**
 - What could it do on a schedule, and at what exact time?
 - When should it stay quiet?
+- For anything date-driven (renewals, deadlines, expiries): what time of day should it look, and how far ahead? A routine runs on a clock, not on a date, so it becomes a daily check that stays quiet unless something is due.
 - All routines start OFF and the bot asks the user during setup which to switch on (each run uses tokens). Which ones should it suggest, and how should it word the question?
 
 **9. The data Google Sheet**
